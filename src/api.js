@@ -1,3 +1,3 @@
 import axios from 'axios';
-const API = axios.create({ baseURL: 'http://localhost:4000/api' });
+const API = axios.create({ baseURL: 'https://ktp-testing-1.onrender.com/api' });
 export default API;
