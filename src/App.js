@@ -16,7 +16,7 @@ function App() {
           <Route path="/entry" element={<EntryPage />} />
           <Route path="/exit" element={<ExitPage />} />
           <Route path="/view" element={<ViewPage />} />
-          <Route path="/edit/:id" element={<EditBatchPage />} /> {/* Add this route */}
+          <Route path="/edit-batch/:id" element={<EditBatchPage />} /> {/* Add this route */}
         </Routes>
       </div>
     </Router>
