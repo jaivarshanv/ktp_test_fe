@@ -49,8 +49,21 @@ export default function ViewPage() {
       Mediator: batch.mediator_name || 'N/A'
     }));
     
+    // Helper function to properly escape CSV fields
+    const escapeCSV = (value) => {
+      const stringValue = String(value || '');
+      // If value contains comma, quote, or newline, wrap in quotes and escape quotes
+      if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+        return `"${stringValue.replace(/"/g, '""')}"`;
+      }
+      return stringValue;
+    };
+    
     const headers = Object.keys(csvData[0]);
-    const csv = [headers.join(','), ...csvData.map(row => headers.map(h => row[h]).join(','))].join('\n');
+    const csv = [
+      headers.map(escapeCSV).join(','), 
+      ...csvData.map(row => headers.map(h => escapeCSV(row[h])).join(','))
+    ].join('\r\n');
     
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
@@ -58,6 +71,7 @@ export default function ViewPage() {
     a.href = url;
     a.download = 'batches.csv';
     a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   return (
